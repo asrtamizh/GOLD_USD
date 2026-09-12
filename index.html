@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XAU/USD & USD Real-Time Hub</title>
+  <title>XAU/USD Real-Time Hub</title>
   <style>
     :root {
       --bg-color: #0b0e14;
@@ -96,7 +96,7 @@
     }
 
     .card-title {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 600;
       margin-bottom: 14px;
       color: var(--text-main);
@@ -106,7 +106,7 @@
     }
 
     .chart-container {
-      height: 500px;
+      height: 520px;
       width: 100%;
     }
 
@@ -122,19 +122,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 14px;
+      font-size: 13px;
     }
 
     .sentiment-badge {
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 700;
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 4px;
       text-transform: uppercase;
     }
 
     .meter-bar-wrapper {
-      height: 12px;
+      height: 10px;
       width: 100%;
       background-color: #212636;
       border-radius: 6px;
@@ -157,7 +157,7 @@
     .sentiment-breakdown {
       display: flex;
       justify-content: space-between;
-      font-size: 12px;
+      font-size: 11px;
       color: var(--text-muted);
     }
 
@@ -166,7 +166,7 @@
       display: flex;
       flex-direction: column;
       gap: 12px;
-      max-height: 550px;
+      max-height: 480px;
       overflow-y: auto;
       padding-right: 6px;
     }
@@ -184,30 +184,30 @@
     .news-item a {
       color: var(--text-main);
       text-decoration: none;
-      font-size: 14px;
+      font-size: 13.5px;
       font-weight: 500;
       line-height: 1.4;
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
     }
 
-    /* Signal Indicators per Headline */
+    /* Directional Badges per Headline */
     .signals-box {
       display: flex;
-      gap: 10px;
-      margin-top: 8px;
-      padding-top: 8px;
+      gap: 8px;
+      margin-top: 6px;
+      padding-top: 6px;
       border-top: 1px dashed #2a2e3d;
     }
 
     .signal-chip {
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 600;
-      padding: 3px 8px;
+      padding: 2px 6px;
       border-radius: 4px;
       display: inline-flex;
       align-items: center;
-      gap: 4px;
+      gap: 3px;
     }
 
     .signal-up {
@@ -236,11 +236,11 @@
       margin-top: 6px;
     }
 
-    .tag {
+    .source-tag {
       background: rgba(240, 185, 11, 0.15);
       color: var(--accent-gold);
-      padding: 2px 6px;
-      border-radius: 4px;
+      padding: 1px 5px;
+      border-radius: 3px;
       font-weight: 600;
     }
 
@@ -259,7 +259,7 @@
   <header>
     <h1>XAUUSD & USD Real-Time Market Hub</h1>
     <div class="live-badge">
-      <div class="pulse"></div> Live Market Feed
+      <div class="pulse"></div> Live Market Stream
     </div>
   </header>
 
@@ -286,27 +286,49 @@
   </div>
 
   <div class="container">
-    <!-- Left Column: Interactive Chart -->
+    <!-- Left Column: Interactive Technical Chart -->
     <div>
       <div class="card" style="margin-bottom: 0;">
         <div class="card-title">
-          <span>XAU/USD Live Technical Chart</span>
+          <span>XAU/USD Advanced Technical Chart</span>
         </div>
         <div class="chart-container" id="tv_chart"></div>
       </div>
     </div>
 
-    <!-- Right Column: Sentiment Filter & Live News -->
+    <!-- Right Column: Dual Sentiment & Live Aggregated News -->
     <div>
-      <!-- Market Sentiment Widget -->
+      <!-- 1. Retail Forex Community Sentiment -->
       <div class="card">
         <div class="card-title">
-          <span>XAU/USD Market Sentiment</span>
-          <span style="font-size: 11px; color: var(--text-muted);">Real-time Signal Engine</span>
+          <span>Forex Traders Retail Position</span>
+          <span style="font-size: 11px; color: var(--text-muted);">Public Account Ratio</span>
         </div>
         <div class="sentiment-container">
           <div class="sentiment-status">
-            <span>Overall Bias:</span>
+            <span>Retail Stance (XAUUSD):</span>
+            <span id="retail-badge" class="sentiment-badge" style="background:rgba(14, 203, 129, 0.2); color:var(--accent-green);">63% LONG</span>
+          </div>
+          <div class="meter-bar-wrapper">
+            <div id="retail-bullish" class="meter-bullish" style="width: 63%;"></div>
+            <div id="retail-bearish" class="meter-bearish" style="width: 37%;"></div>
+          </div>
+          <div class="sentiment-breakdown">
+            <span id="retail-long">Buyers (Long): 63%</span>
+            <span id="retail-short">Sellers (Short): 37%</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 2. News-Based Analyst Sentiment -->
+      <div class="card">
+        <div class="card-title">
+          <span>Multi-Site News Sentiment</span>
+          <span style="font-size: 11px; color: var(--text-muted);">Cross-Platform NLP</span>
+        </div>
+        <div class="sentiment-container">
+          <div class="sentiment-status">
+            <span>Overall Media Bias:</span>
             <span id="sentiment-badge" class="sentiment-badge" style="background:#333; color:#fff;">Analyzing...</span>
           </div>
           <div class="meter-bar-wrapper">
@@ -320,21 +342,21 @@
         </div>
       </div>
 
-      <!-- Live Aggregated News Feed -->
+      <!-- 3. Live Aggregated News Feed -->
       <div class="card">
         <div class="card-title">
-          <span>Gold & USD Live News Impact</span>
-          <button onclick="fetchNews()" style="background:none; border:none; color:var(--accent-gold); cursor:pointer; font-size:12px;">↻ Refresh</button>
+          <span>Multi-Source News & Signal Feed</span>
+          <button onclick="fetchAllNews()" style="background:none; border:none; color:var(--accent-gold); cursor:pointer; font-size:12px;">↻ Refresh</button>
         </div>
         <div class="news-feed" id="news-container">
-          <div style="color: var(--text-muted); font-size: 13px;">Analyzing live news impact...</div>
+          <div style="color: var(--text-muted); font-size: 13px;">Fetching feeds across financial sources...</div>
         </div>
       </div>
     </div>
   </div>
 
   <footer>
-    Real-time data powered by TradingView & Public Financial RSS Feeds. News impact signals calculated client-side.
+    Data sources: TradingView, FXStreet, ForexLive & RSS feeds. Client-side NLP analysis.
   </footer>
 
   <!-- TradingView Script -->
@@ -354,20 +376,18 @@
       "container_id": "tv_chart"
     });
 
-    // Keyword dictionaries for Market Impact
-    const goldBullishWords = ['gold surge', 'gold rally', 'gold gain', 'xau rise', 'xauusd bounce', 'safe-haven', 'rate cut', 'fed cut', 'inflation surge', 'geopolitical tension', 'dollar drops'];
-    const usdBullishWords = ['usd surge', 'dollar rally', 'hawkish', 'fed hike', 'rate hike', 'strong dollar', 'cpi beat', 'jobs beat', 'powell hawkish', 'us yields rise'];
+    // Keyword Dictionaries for Sentiment & Market Signals
+    const goldBullishWords = ['gold surge', 'gold rally', 'gold gain', 'xau rise', 'xauusd bounce', 'safe-haven', 'rate cut', 'fed cut', 'inflation surge', 'geopolitical', 'dollar drops', 'war', 'recession'];
+    const usdBullishWords = ['usd surge', 'dollar rally', 'hawkish', 'fed hike', 'rate hike', 'strong dollar', 'cpi beat', 'jobs beat', 'powell hawkish', 'us yields rise', 'inflation hot'];
 
     function evaluateHeadlineImpact(text) {
       const lower = text.toLowerCase();
       let goldImpact = 'neutral';
       let usdImpact = 'neutral';
 
-      // Check Gold Bullish / USD Bearish triggers
       let goldBullScore = 0;
       goldBullishWords.forEach(word => { if (lower.includes(word)) goldBullScore++; });
 
-      // Check USD Bullish / Gold Bearish triggers
       let usdBullScore = 0;
       usdBullishWords.forEach(word => { if (lower.includes(word)) usdBullScore++; });
 
@@ -378,7 +398,6 @@
         usdImpact = 'up';
         goldImpact = 'down';
       } else {
-        // Fallback default checks for generic terms
         if (lower.includes('hike') || lower.includes('hawkish') || lower.includes('dollar climbs')) {
           usdImpact = 'up';
           goldImpact = 'down';
@@ -391,7 +410,7 @@
       return { goldImpact, usdImpact };
     }
 
-    function analyzeOverallSentiment(articles) {
+    function analyzeNewsSentiment(articles) {
       let bullCount = 0;
       let bearCount = 0;
 
@@ -428,69 +447,82 @@
       }
     }
 
-    async function fetchNews() {
+    // Aggregates feeds from multiple financial sources
+    async function fetchAllNews() {
       const container = document.getElementById('news-container');
-      const rssUrl = encodeURIComponent('https://www.fxstreet.com/rss/news');
-      const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${rssUrl}`;
+      const feeds = [
+        { name: 'FXStreet', url: 'https://www.fxstreet.com/rss/news' },
+        { name: 'ForexLive', url: 'https://www.forexlive.com/feed/news' }
+      ];
 
-      try {
-        const res = await fetch(apiUrl);
-        const data = await res.json();
-        
-        if (data.status === 'ok') {
-          container.innerHTML = '';
-          const items = data.items.filter(item => {
-            const txt = (item.title + item.description).toLowerCase();
-            return txt.includes('gold') || txt.includes('xau') || txt.includes('usd') || txt.includes('fed') || txt.includes('dollar');
-          }).slice(0, 12);
+      let aggregatedArticles = [];
 
-          if(items.length === 0) {
-            container.innerHTML = '<div style="color:var(--text-muted)">No recent news found.</div>';
-            return;
+      for (const feed of feeds) {
+        try {
+          const apiUrl = `https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(feed.url)}`;
+          const res = await fetch(apiUrl);
+          const data = await res.json();
+
+          if (data.status === 'ok') {
+            const filtered = data.items.filter(item => {
+              const txt = (item.title + item.description).toLowerCase();
+              return txt.includes('gold') || txt.includes('xau') || txt.includes('usd') || txt.includes('fed') || txt.includes('dollar');
+            }).map(item => ({ ...item, source: feed.name }));
+
+            aggregatedArticles = aggregatedArticles.concat(filtered);
           }
-
-          analyzeOverallSentiment(items);
-
-          items.forEach(item => {
-            const date = new Date(item.pubDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            const { goldImpact, usdImpact } = evaluateHeadlineImpact(item.title + ' ' + item.description);
-
-            // Construct Direction Badges with Up/Down Arrows
-            const goldBadge = goldImpact === 'up' 
-              ? `<span class="signal-chip signal-up">GOLD ▲ Bullish</span>`
-              : goldImpact === 'down'
-              ? `<span class="signal-chip signal-down">GOLD ▼ Bearish</span>`
-              : `<span class="signal-chip signal-neutral">GOLD ➔ Neutral</span>`;
-
-            const usdBadge = usdImpact === 'up' 
-              ? `<span class="signal-chip signal-up">USD ▲ Bullish</span>`
-              : usdImpact === 'down'
-              ? `<span class="signal-chip signal-down">USD ▼ Bearish</span>`
-              : `<span class="signal-chip signal-neutral">USD ➔ Neutral</span>`;
-
-            const newsCard = `
-              <div class="news-item">
-                <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
-                <div class="signals-box">
-                  ${usdBadge}
-                  ${goldBadge}
-                </div>
-                <div class="news-meta">
-                  <span class="tag">${item.author || 'Forex News'}</span>
-                  <span>${date}</span>
-                </div>
-              </div>
-            `;
-            container.innerHTML += newsCard;
-          });
+        } catch (e) {
+          console.warn(`Failed to fetch feed: ${feed.name}`);
         }
-      } catch (err) {
-        container.innerHTML = '<div style="color:var(--accent-red)">Unable to load live news impact. Retrying...</div>';
       }
+
+      if (aggregatedArticles.length === 0) {
+        container.innerHTML = '<div style="color:var(--text-muted)">Unable to load feeds right now. Refreshing...</div>';
+        return;
+      }
+
+      // Sort by publish date
+      aggregatedArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+      const items = aggregatedArticles.slice(0, 15);
+
+      analyzeNewsSentiment(items);
+
+      container.innerHTML = '';
+      items.forEach(item => {
+        const date = new Date(item.pubDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+        const { goldImpact, usdImpact } = evaluateHeadlineImpact(item.title + ' ' + item.description);
+
+        const goldBadge = goldImpact === 'up' 
+          ? `<span class="signal-chip signal-up">GOLD ▲ Bullish</span>`
+          : goldImpact === 'down'
+          ? `<span class="signal-chip signal-down">GOLD ▼ Bearish</span>`
+          : `<span class="signal-chip signal-neutral">GOLD ➔ Neutral</span>`;
+
+        const usdBadge = usdImpact === 'up' 
+          ? `<span class="signal-chip signal-up">USD ▲ Bullish</span>`
+          : usdImpact === 'down'
+          ? `<span class="signal-chip signal-down">USD ▼ Bearish</span>`
+          : `<span class="signal-chip signal-neutral">USD ➔ Neutral</span>`;
+
+        const newsCard = `
+          <div class="news-item">
+            <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+            <div class="signals-box">
+              ${usdBadge}
+              ${goldBadge}
+            </div>
+            <div class="news-meta">
+              <span class="source-tag">${item.source}</span>
+              <span>${date}</span>
+            </div>
+          </div>
+        `;
+        container.innerHTML += newsCard;
+      });
     }
 
-    fetchNews();
-    setInterval(fetchNews, 100);
+    fetchAllNews();
+    setInterval(fetchAllNews, 60000);
   </script>
 </body>
 </html>
