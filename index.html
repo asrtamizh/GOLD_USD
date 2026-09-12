@@ -69,7 +69,7 @@
     .marquee-content {
       display: flex;
       white-space: nowrap;
-      animation: marquee 120s linear infinite; /* Slowed down to 120 seconds */
+      animation: marquee 120s linear infinite;
       font-size: 12px;
       color: var(--text-main);
     }
@@ -121,14 +121,14 @@
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 6px;
-      padding: 8px 10px;
-      margin-bottom: 8px;
+      padding: 10px;
+      margin-bottom: 12px;
     }
 
     .card-title-micro {
       font-size: 11px;
       font-weight: 600;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -150,7 +150,7 @@
       justify-content: space-between;
       align-items: center;
       font-size: 11px;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
     .sentiment-badge-micro {
@@ -161,13 +161,13 @@
     }
 
     .meter-bar-wrapper-micro {
-      height: 5px;
+      height: 6px;
       width: 100%;
       background-color: #212636;
       border-radius: 3px;
       overflow: hidden;
       display: flex;
-      margin: 3px 0;
+      margin: 4px 0;
     }
 
     .meter-bullish {
@@ -185,22 +185,23 @@
     .sentiment-breakdown-micro {
       display: flex;
       justify-content: space-between;
-      font-size: 9.5px;
+      font-size: 10px;
       color: var(--text-muted);
     }
 
+    /* Fixed Height Container for TradingView Live Quotes */
     .quotes-grid-micro {
       display: flex;
-      gap: 6px;
+      gap: 8px;
     }
 
     .tv-single-quote-box {
       width: 50%;
       background: #10141e;
       border: 1px solid #232838;
-      border-radius: 4px;
+      border-radius: 6px;
       overflow: hidden;
-      height: 52px;
+      height: 125px; /* Set to 125px so TradingView renders the price numbers */
     }
 
     /* News Panel */
@@ -216,7 +217,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 540px;
+      max-height: 480px;
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -334,13 +335,13 @@
 
   <!-- Top Moving News Ticker -->
   <div class="top-news-marquee">
-    <div class="marquee-label">2H FLASH NEWS</div>
+    <div class="marquee-label">FLASH NEWS</div>
     <div class="marquee-content" id="marquee-stream">
-      <div class="marquee-item"><span>Loading latest news...</span></div>
+      <div class="marquee-item"><span>Loading latest market news...</span></div>
     </div>
   </div>
 
-  <!-- TradingView Ticker Tape -->
+  <!-- TradingView Ticker Tape Bar -->
   <div class="ticker-bar">
     <div class="tradingview-widget-container">
       <div class="tradingview-widget-container__widget"></div>
@@ -371,14 +372,14 @@
     <!-- Right Column: Micro Live Widgets + News Feed -->
     <div>
 
-      <!-- 1. Real Live TradingView Single-Quote Tickers -->
+      <!-- Real Live TradingView Single Quote Tickers -->
       <div class="card-micro">
         <div class="card-title-micro">
-          <span>Real-Time Quotes</span>
-          <span style="color: var(--accent-green);">TradingView Live</span>
+          <span>Real-Time Market Quotes</span>
+          <span style="color: var(--accent-green);">● Live</span>
         </div>
         <div class="quotes-grid-micro">
-          <!-- Real-Time Gold Quote -->
+          <!-- Real Live Gold Quote -->
           <div class="tv-single-quote-box">
             <div class="tradingview-widget-container">
               <div class="tradingview-widget-container__widget"></div>
@@ -393,7 +394,7 @@
               </script>
             </div>
           </div>
-          <!-- Real-Time DXY Quote -->
+          <!-- Real Live DXY Quote -->
           <div class="tv-single-quote-box">
             <div class="tradingview-widget-container">
               <div class="tradingview-widget-container__widget"></div>
@@ -411,7 +412,7 @@
         </div>
       </div>
 
-      <!-- 2. Micro Retail Trader Sentiment -->
+      <!-- Retail Trader Sentiment Bar -->
       <div class="card-micro">
         <div class="sentiment-status-micro">
           <span style="font-weight:600;">RETAIL POSITIONS</span>
@@ -427,10 +428,10 @@
         </div>
       </div>
 
-      <!-- 3. Micro News Bias -->
+      <!-- News Bias Indicator -->
       <div class="card-micro">
         <div class="sentiment-status-micro">
-          <span style="font-weight:600;">NEWS BIAS NLP</span>
+          <span style="font-weight:600;">NEWS SENTIMENT BIAS</span>
           <span id="sentiment-badge" class="sentiment-badge-micro" style="background:#333; color:#fff;">Analyzing...</span>
         </div>
         <div class="meter-bar-wrapper-micro">
@@ -443,14 +444,14 @@
         </div>
       </div>
 
-      <!-- 4. Expanded Highlighted News Feed -->
+      <!-- Live News Feed -->
       <div class="news-panel">
         <div class="card-title-micro" style="color: var(--accent-gold); font-size: 12px; margin-bottom: 10px;">
-          <span>Live Aggregated News & Key Points</span>
+          <span>Live Aggregated News & Takeaways</span>
           <button onclick="fetchAllNews()" style="background:none; border:none; color:var(--accent-gold); cursor:pointer; font-size:10px;">↻ Refresh</button>
         </div>
         <div class="news-feed" id="news-container">
-          <div style="color: var(--text-muted); font-size: 12px; padding: 10px;">Connecting to news feeds...</div>
+          <div style="color: var(--text-muted); font-size: 12px; padding: 10px;">Connecting to market news feeds...</div>
         </div>
       </div>
 
@@ -461,9 +462,10 @@
     Real-Time Forex Hub | Spot Gold & USD Sentiment Dashboard
   </footer>
 
-  <!-- TradingView Script -->
+  <!-- TradingView Library -->
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script type="text/javascript">
+    // Main Technical Chart Widget
     new TradingView.widget({
       "autosize": true,
       "symbol": "OANDA:XAUUSD",
@@ -543,19 +545,19 @@
       const text = (title + ' ' + description).toLowerCase();
 
       if (goldImpact === 'up') {
-        points.push('Safe-haven or rate expectations supporting Gold demand.');
+        points.push('Safe-haven demand or interest rate expectations supporting Gold.');
       } else if (goldImpact === 'down') {
-        points.push('Stronger USD or yields putting pressure on XAU/USD.');
+        points.push('Stronger USD or yields exerting downward pressure on XAU/USD.');
       } else {
-        points.push('Consolidation phase; awaiting upcoming macroeconomic data.');
+        points.push('Market consolidating ahead of upcoming economic data releases.');
       }
 
       if (text.includes('fed') || text.includes('rate') || text.includes('cpi') || text.includes('inflation')) {
-        points.push('Central bank interest rate signals driving market direction.');
+        points.push('Central bank interest rate trajectory is driving market direction.');
       } else if (text.includes('war') || text.includes('geopolitical') || text.includes('tensions')) {
-        points.push('Geopolitical risk factors influencing USD & bullion flows.');
+        points.push('Geopolitical risk developments driving capital into USD and bullion.');
       } else {
-        points.push('Technical levels driving short-term price momentum.');
+        points.push('Technical indicators guiding short-term price movement.');
       }
 
       return points;
@@ -624,17 +626,17 @@
             aggregatedArticles = aggregatedArticles.concat(filtered);
           }
         } catch (e) {
-          console.warn(`Failed feed fetch: ${feed.name}`);
+          console.warn(`Feed fetch error: ${feed.name}`);
         }
       }
 
       if (aggregatedArticles.length === 0) return;
 
-      // Filter news to ONLY recent within 2 hours
+      // Filter for recent news (within last 2 hours)
       const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
       let items = aggregatedArticles.filter(item => new Date(item.pubDate) >= twoHoursAgo);
 
-      // Fallback: If no news within 2 hours, pick the 10 most recent articles
+      // Fallback: If low volume in past 2 hours, grab the 10 most recent articles
       if (items.length === 0) {
         aggregatedArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
         items = aggregatedArticles.slice(0, 10);
@@ -644,9 +646,9 @@
 
       analyzeNewsSentiment(items);
 
-      // Populate Top Moving Marquee
+      // Render Top Marquee
       marquee.innerHTML = '';
-      const marqueeItems = items.concat(items); // Double for continuous loop
+      const marqueeItems = items.concat(items); // Duplicated for smooth loop
       marqueeItems.forEach(item => {
         marquee.innerHTML += `
           <div class="marquee-item">
@@ -657,7 +659,7 @@
         `;
       });
 
-      // Populate Main News Panel with Bullet Key Points
+      // Render News Cards
       container.innerHTML = '';
       items.forEach(item => {
         const date = new Date(item.pubDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
