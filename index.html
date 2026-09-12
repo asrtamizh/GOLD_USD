@@ -188,7 +188,44 @@
       font-weight: 500;
       line-height: 1.4;
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+    }
+
+    /* Signal Indicators per Headline */
+    .signals-box {
+      display: flex;
+      gap: 10px;
+      margin-top: 8px;
+      padding-top: 8px;
+      border-top: 1px dashed #2a2e3d;
+    }
+
+    .signal-chip {
+      font-size: 11px;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 4px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .signal-up {
+      background: rgba(14, 203, 129, 0.15);
+      color: var(--accent-green);
+      border: 1px solid rgba(14, 203, 129, 0.3);
+    }
+
+    .signal-down {
+      background: rgba(246, 70, 93, 0.15);
+      color: var(--accent-red);
+      border: 1px solid rgba(246, 70, 93, 0.3);
+    }
+
+    .signal-neutral {
+      background: rgba(132, 142, 156, 0.15);
+      color: var(--text-muted);
+      border: 1px solid rgba(132, 142, 156, 0.3);
     }
 
     .news-meta {
@@ -196,6 +233,7 @@
       justify-content: space-between;
       font-size: 11px;
       color: var(--text-muted);
+      margin-top: 6px;
     }
 
     .tag {
@@ -260,11 +298,11 @@
 
     <!-- Right Column: Sentiment Filter & Live News -->
     <div>
-      <!-- Dynamic Market Sentiment Widget -->
+      <!-- Market Sentiment Widget -->
       <div class="card">
         <div class="card-title">
           <span>XAU/USD Market Sentiment</span>
-          <span style="font-size: 11px; color: var(--text-muted);">Real-time NLP</span>
+          <span style="font-size: 11px; color: var(--text-muted);">Real-time Signal Engine</span>
         </div>
         <div class="sentiment-container">
           <div class="sentiment-status">
@@ -276,8 +314,8 @@
             <div id="meter-bearish" class="meter-bearish" style="width: 50%;"></div>
           </div>
           <div class="sentiment-breakdown">
-            <span id="bull-pct">Bullish: 50%</span>
-            <span id="bear-pct">Bearish: 50%</span>
+            <span id="bull-pct">Bullish Gold: 50%</span>
+            <span id="bear-pct">Bearish Gold: 50%</span>
           </div>
         </div>
       </div>
@@ -285,18 +323,18 @@
       <!-- Live Aggregated News Feed -->
       <div class="card">
         <div class="card-title">
-          <span>Gold & USD Live News</span>
+          <span>Gold & USD Live News Impact</span>
           <button onclick="fetchNews()" style="background:none; border:none; color:var(--accent-gold); cursor:pointer; font-size:12px;">↻ Refresh</button>
         </div>
         <div class="news-feed" id="news-container">
-          <div style="color: var(--text-muted); font-size: 13px;">Analyzing public market news...</div>
+          <div style="color: var(--text-muted); font-size: 13px;">Analyzing live news impact...</div>
         </div>
       </div>
     </div>
   </div>
 
   <footer>
-    Real-time data powered by TradingView & Public Financial RSS Feeds. NLP Sentiment calculated client-side.
+    Real-time data powered by TradingView & Public Financial RSS Feeds. News impact signals calculated client-side.
   </footer>
 
   <!-- TradingView Script -->
@@ -316,45 +354,71 @@
       "container_id": "tv_chart"
     });
 
-    // Financial Dictionary for Sentiment Scoring
-    const bullishWords = ['bull', 'surge', 'rally', 'gain', 'bounce', 'rise', 'record', 'high', 'breakout', 'safe-haven', 'climb', 'soar', 'upside', 'cut', 'support'];
-    const bearishWords = ['bear', 'drop', 'fall', 'plunge', 'decline', 'slide', 'hike', 'rate hike', 'hawkish', 'sell-off', 'downside', 'pressure', 'strong dollar', 'ppi', 'cpi'];
+    // Keyword dictionaries for Market Impact
+    const goldBullishWords = ['gold surge', 'gold rally', 'gold gain', 'xau rise', 'xauusd bounce', 'safe-haven', 'rate cut', 'fed cut', 'inflation surge', 'geopolitical tension', 'dollar drops'];
+    const usdBullishWords = ['usd surge', 'dollar rally', 'hawkish', 'fed hike', 'rate hike', 'strong dollar', 'cpi beat', 'jobs beat', 'powell hawkish', 'us yields rise'];
 
-    function analyzeSentiment(articles) {
-      let bullScore = 0;
-      let bearScore = 0;
+    function evaluateHeadlineImpact(text) {
+      const lower = text.toLowerCase();
+      let goldImpact = 'neutral';
+      let usdImpact = 'neutral';
+
+      // Check Gold Bullish / USD Bearish triggers
+      let goldBullScore = 0;
+      goldBullishWords.forEach(word => { if (lower.includes(word)) goldBullScore++; });
+
+      // Check USD Bullish / Gold Bearish triggers
+      let usdBullScore = 0;
+      usdBullishWords.forEach(word => { if (lower.includes(word)) usdBullScore++; });
+
+      if (goldBullScore > usdBullScore) {
+        goldImpact = 'up';
+        usdImpact = 'down';
+      } else if (usdBullScore > goldBullScore) {
+        usdImpact = 'up';
+        goldImpact = 'down';
+      } else {
+        // Fallback default checks for generic terms
+        if (lower.includes('hike') || lower.includes('hawkish') || lower.includes('dollar climbs')) {
+          usdImpact = 'up';
+          goldImpact = 'down';
+        } else if (lower.includes('cut') || lower.includes('war') || lower.includes('tensions') || lower.includes('gold climbs')) {
+          goldImpact = 'up';
+          usdImpact = 'down';
+        }
+      }
+
+      return { goldImpact, usdImpact };
+    }
+
+    function analyzeOverallSentiment(articles) {
+      let bullCount = 0;
+      let bearCount = 0;
 
       articles.forEach(art => {
-        const text = (art.title + ' ' + art.description).toLowerCase();
-        
-        bullishWords.forEach(word => {
-          if (text.includes(word)) bullScore++;
-        });
-
-        bearishWords.forEach(word => {
-          if (text.includes(word)) bearScore++;
-        });
+        const { goldImpact } = evaluateHeadlineImpact(art.title + ' ' + art.description);
+        if (goldImpact === 'up') bullCount++;
+        else if (goldImpact === 'down') bearCount++;
       });
 
-      const total = bullScore + bearScore;
+      const total = bullCount + bearCount;
       if (total === 0) return;
 
-      const bullPct = Math.round((bullScore / total) * 100);
+      const bullPct = Math.round((bullCount / total) * 100);
       const bearPct = 100 - bullPct;
 
-      // Update Meter DOM
       document.getElementById('meter-bullish').style.width = `${bullPct}%`;
       document.getElementById('meter-bearish').style.width = `${bearPct}%`;
-      document.getElementById('bull-pct').innerText = `Bullish: ${bullPct}%`;
-      document.getElementById('bear-pct').innerText = `Bearish: ${bearPct}%`;
+      document.getElementById('bull-pct').innerText = `Bullish Gold: ${bullPct}%`;
+      document.getElementById('bear-pct').innerText = `Bearish Gold: ${bearPct}%`;
 
       const badge = document.getElementById('sentiment-badge');
       if (bullPct >= 60) {
-        badge.innerText = 'Bullish';
+        badge.innerText = 'Bullish Gold';
         badge.style.backgroundColor = 'rgba(14, 203, 129, 0.2)';
         badge.style.color = 'var(--accent-green)';
       } else if (bearPct >= 60) {
-        badge.innerText = 'Bearish';
+        badge.innerText = 'Bearish Gold';
         badge.style.backgroundColor = 'rgba(246, 70, 93, 0.2)';
         badge.style.color = 'var(--accent-red)';
       } else {
@@ -381,18 +445,36 @@
           }).slice(0, 12);
 
           if(items.length === 0) {
-            container.innerHTML = '<div style="color:var(--text-muted)">No recent XAU/USD news found.</div>';
+            container.innerHTML = '<div style="color:var(--text-muted)">No recent news found.</div>';
             return;
           }
 
-          // Run sentiment NLP analysis
-          analyzeSentiment(items);
+          analyzeOverallSentiment(items);
 
           items.forEach(item => {
             const date = new Date(item.pubDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            const { goldImpact, usdImpact } = evaluateHeadlineImpact(item.title + ' ' + item.description);
+
+            // Construct Direction Badges with Up/Down Arrows
+            const goldBadge = goldImpact === 'up' 
+              ? `<span class="signal-chip signal-up">GOLD ▲ Bullish</span>`
+              : goldImpact === 'down'
+              ? `<span class="signal-chip signal-down">GOLD ▼ Bearish</span>`
+              : `<span class="signal-chip signal-neutral">GOLD ➔ Neutral</span>`;
+
+            const usdBadge = usdImpact === 'up' 
+              ? `<span class="signal-chip signal-up">USD ▲ Bullish</span>`
+              : usdImpact === 'down'
+              ? `<span class="signal-chip signal-down">USD ▼ Bearish</span>`
+              : `<span class="signal-chip signal-neutral">USD ➔ Neutral</span>`;
+
             const newsCard = `
               <div class="news-item">
                 <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+                <div class="signals-box">
+                  ${usdBadge}
+                  ${goldBadge}
+                </div>
                 <div class="news-meta">
                   <span class="tag">${item.author || 'Forex News'}</span>
                   <span>${date}</span>
@@ -403,13 +485,12 @@
           });
         }
       } catch (err) {
-        container.innerHTML = '<div style="color:var(--accent-red)">Unable to load live market updates. Retrying...</div>';
+        container.innerHTML = '<div style="color:var(--accent-red)">Unable to load live news impact. Retrying...</div>';
       }
     }
 
-    // Initial load and auto refresh every 60 seconds
     fetchNews();
-    setInterval(fetchNews, 60000);
+    setInterval(fetchNews, 100);
   </script>
 </body>
 </html>
