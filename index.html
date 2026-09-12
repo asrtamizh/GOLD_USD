@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XAU/USD & USD Live Market Hub</title>
+  <title>XAU/USD & USD Real-Time Hub</title>
   <style>
     :root {
       --bg-color: #0b0e14;
@@ -21,7 +21,7 @@
     body {
       background-color: var(--bg-color);
       color: var(--text-main);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -72,7 +72,7 @@
 
     .container {
       display: grid;
-      grid-template-columns: 2fr 1fr;
+      grid-template-columns: 2.2fr 1fr;
       gap: 20px;
       padding: 20px;
       max-width: 1600px;
@@ -92,6 +92,7 @@
       padding: 16px;
       display: flex;
       flex-direction: column;
+      margin-bottom: 20px;
     }
 
     .card-title {
@@ -109,11 +110,63 @@
       width: 100%;
     }
 
+    /* Sentiment Meter Styling */
+    .sentiment-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    .sentiment-status {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 14px;
+    }
+
+    .sentiment-badge {
+      font-size: 13px;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 4px;
+      text-transform: uppercase;
+    }
+
+    .meter-bar-wrapper {
+      height: 12px;
+      width: 100%;
+      background-color: #212636;
+      border-radius: 6px;
+      overflow: hidden;
+      display: flex;
+    }
+
+    .meter-bullish {
+      height: 100%;
+      background-color: var(--accent-green);
+      transition: width 0.5s ease;
+    }
+
+    .meter-bearish {
+      height: 100%;
+      background-color: var(--accent-red);
+      transition: width 0.5s ease;
+    }
+
+    .sentiment-breakdown {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* News Feed Styling */
     .news-feed {
       display: flex;
       flex-direction: column;
       gap: 12px;
-      max-height: 800px;
+      max-height: 550px;
       overflow-y: auto;
       padding-right: 6px;
     }
@@ -126,9 +179,7 @@
       transition: border-color 0.2s;
     }
 
-    .news-item:hover {
-      border-color: var(--accent-gold);
-    }
+    .news-item:hover { border-color: var(--accent-gold); }
 
     .news-item a {
       color: var(--text-main);
@@ -138,10 +189,6 @@
       line-height: 1.4;
       display: block;
       margin-bottom: 6px;
-    }
-
-    .news-item a:hover {
-      color: var(--accent-gold);
     }
 
     .news-meta {
@@ -172,7 +219,7 @@
 <body>
 
   <header>
-    <h1>XAUUSD & USD Real-Time Hub</h1>
+    <h1>XAUUSD & USD Real-Time Market Hub</h1>
     <div class="live-badge">
       <div class="pulse"></div> Live Market Feed
     </div>
@@ -202,30 +249,57 @@
 
   <div class="container">
     <!-- Left Column: Interactive Chart -->
-    <div class="card">
-      <div class="card-title">
-        <span>XAU/USD Live Advanced Chart</span>
+    <div>
+      <div class="card" style="margin-bottom: 0;">
+        <div class="card-title">
+          <span>XAU/USD Live Technical Chart</span>
+        </div>
+        <div class="chart-container" id="tv_chart"></div>
       </div>
-      <div class="chart-container" id="tv_chart"></div>
     </div>
 
-    <!-- Right Column: Live Aggregated News Feed -->
-    <div class="card">
-      <div class="card-title">
-        <span>Gold & USD Real-Time News</span>
-        <button onclick="fetchNews()" style="background:none; border:none; color:var(--accent-gold); cursor:pointer; font-size:12px;">↻ Refresh</button>
+    <!-- Right Column: Sentiment Filter & Live News -->
+    <div>
+      <!-- Dynamic Market Sentiment Widget -->
+      <div class="card">
+        <div class="card-title">
+          <span>XAU/USD Market Sentiment</span>
+          <span style="font-size: 11px; color: var(--text-muted);">Real-time NLP</span>
+        </div>
+        <div class="sentiment-container">
+          <div class="sentiment-status">
+            <span>Overall Bias:</span>
+            <span id="sentiment-badge" class="sentiment-badge" style="background:#333; color:#fff;">Analyzing...</span>
+          </div>
+          <div class="meter-bar-wrapper">
+            <div id="meter-bullish" class="meter-bullish" style="width: 50%;"></div>
+            <div id="meter-bearish" class="meter-bearish" style="width: 50%;"></div>
+          </div>
+          <div class="sentiment-breakdown">
+            <span id="bull-pct">Bullish: 50%</span>
+            <span id="bear-pct">Bearish: 50%</span>
+          </div>
+        </div>
       </div>
-      <div class="news-feed" id="news-container">
-        <div style="color: var(--text-muted); font-size: 13px;">Loading market updates...</div>
+
+      <!-- Live Aggregated News Feed -->
+      <div class="card">
+        <div class="card-title">
+          <span>Gold & USD Live News</span>
+          <button onclick="fetchNews()" style="background:none; border:none; color:var(--accent-gold); cursor:pointer; font-size:12px;">↻ Refresh</button>
+        </div>
+        <div class="news-feed" id="news-container">
+          <div style="color: var(--text-muted); font-size: 13px;">Analyzing public market news...</div>
+        </div>
       </div>
     </div>
   </div>
 
   <footer>
-    Market data powered by TradingView & Public RSS Feeds. Automatically updates client-side.
+    Real-time data powered by TradingView & Public Financial RSS Feeds. NLP Sentiment calculated client-side.
   </footer>
 
-  <!-- TradingView Advanced Chart Script -->
+  <!-- TradingView Script -->
   <script type="text/javascript" src="https://s3.tradingview.com/tv.js"></script>
   <script type="text/javascript">
     new TradingView.widget({
@@ -242,7 +316,54 @@
       "container_id": "tv_chart"
     });
 
-    // Client-side News Fetcher via rss2json API (No Backend Required)
+    // Financial Dictionary for Sentiment Scoring
+    const bullishWords = ['bull', 'surge', 'rally', 'gain', 'bounce', 'rise', 'record', 'high', 'breakout', 'safe-haven', 'climb', 'soar', 'upside', 'cut', 'support'];
+    const bearishWords = ['bear', 'drop', 'fall', 'plunge', 'decline', 'slide', 'hike', 'rate hike', 'hawkish', 'sell-off', 'downside', 'pressure', 'strong dollar', 'ppi', 'cpi'];
+
+    function analyzeSentiment(articles) {
+      let bullScore = 0;
+      let bearScore = 0;
+
+      articles.forEach(art => {
+        const text = (art.title + ' ' + art.description).toLowerCase();
+        
+        bullishWords.forEach(word => {
+          if (text.includes(word)) bullScore++;
+        });
+
+        bearishWords.forEach(word => {
+          if (text.includes(word)) bearScore++;
+        });
+      });
+
+      const total = bullScore + bearScore;
+      if (total === 0) return;
+
+      const bullPct = Math.round((bullScore / total) * 100);
+      const bearPct = 100 - bullPct;
+
+      // Update Meter DOM
+      document.getElementById('meter-bullish').style.width = `${bullPct}%`;
+      document.getElementById('meter-bearish').style.width = `${bearPct}%`;
+      document.getElementById('bull-pct').innerText = `Bullish: ${bullPct}%`;
+      document.getElementById('bear-pct').innerText = `Bearish: ${bearPct}%`;
+
+      const badge = document.getElementById('sentiment-badge');
+      if (bullPct >= 60) {
+        badge.innerText = 'Bullish';
+        badge.style.backgroundColor = 'rgba(14, 203, 129, 0.2)';
+        badge.style.color = 'var(--accent-green)';
+      } else if (bearPct >= 60) {
+        badge.innerText = 'Bearish';
+        badge.style.backgroundColor = 'rgba(246, 70, 93, 0.2)';
+        badge.style.color = 'var(--accent-red)';
+      } else {
+        badge.innerText = 'Neutral';
+        badge.style.backgroundColor = 'rgba(240, 185, 11, 0.2)';
+        badge.style.color = 'var(--accent-gold)';
+      }
+    }
+
     async function fetchNews() {
       const container = document.getElementById('news-container');
       const rssUrl = encodeURIComponent('https://www.fxstreet.com/rss/news');
@@ -254,16 +375,18 @@
         
         if (data.status === 'ok') {
           container.innerHTML = '';
-          // Filter items relevant to Gold, XAU, USD, Fed, Inflation, or Forex
           const items = data.items.filter(item => {
             const txt = (item.title + item.description).toLowerCase();
             return txt.includes('gold') || txt.includes('xau') || txt.includes('usd') || txt.includes('fed') || txt.includes('dollar');
-          }).slice(0, 15);
+          }).slice(0, 12);
 
           if(items.length === 0) {
-            container.innerHTML = '<div style="color:var(--text-muted)">No recent XAU/USD news found. Retrying...</div>';
+            container.innerHTML = '<div style="color:var(--text-muted)">No recent XAU/USD news found.</div>';
             return;
           }
+
+          // Run sentiment NLP analysis
+          analyzeSentiment(items);
 
           items.forEach(item => {
             const date = new Date(item.pubDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
@@ -280,11 +403,11 @@
           });
         }
       } catch (err) {
-        container.innerHTML = '<div style="color:var(--accent-red)">Unable to load live news feed. Please refresh.</div>';
+        container.innerHTML = '<div style="color:var(--accent-red)">Unable to load live market updates. Retrying...</div>';
       }
     }
 
-    // Initial Fetch & Auto-Refresh every 60 seconds
+    // Initial load and auto refresh every 60 seconds
     fetchNews();
     setInterval(fetchNews, 60000);
   </script>
