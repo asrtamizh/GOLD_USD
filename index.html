@@ -3,14 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>XAU/USD Real-Time Hub (5s Refresh)</title>
+  <title>XAU/USD & USD Real-Time Hub</title>
   <style>
     :root {
       --bg-color: #0b0e14;
       --card-bg: #151924;
       --border-color: #2a2e3d;
-      --text-main: #e1e3e6;
-      --text-muted: #848e9c;
+      --text-main: #f0f2f5;
+      --text-muted: #9aa3af;
       --accent-gold: #f0b90b;
       --accent-green: #0ecb81;
       --accent-red: #f6465d;
@@ -30,14 +30,14 @@
     header {
       background-color: var(--card-bg);
       border-bottom: 1px solid var(--border-color);
-      padding: 16px 24px;
+      padding: 12px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     header h1 {
-      font-size: 20px;
+      font-size: 18px;
       font-weight: 600;
       color: var(--accent-gold);
     }
@@ -45,37 +45,37 @@
     .live-badge {
       display: flex;
       align-items: center;
-      gap: 8px;
-      font-size: 13px;
+      gap: 6px;
+      font-size: 12px;
       color: var(--accent-green);
     }
 
     .pulse {
-      width: 10px;
-      height: 10px;
+      width: 8px;
+      height: 8px;
       background-color: var(--accent-green);
       border-radius: 50%;
-      box-shadow: 0 0 8px var(--accent-green);
+      box-shadow: 0 0 6px var(--accent-green);
       animation: blink 1s infinite;
     }
 
     @keyframes blink {
       0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.2; transform: scale(0.85); }
+      50% { opacity: 0.3; transform: scale(0.85); }
     }
 
     .ticker-bar {
       border-bottom: 1px solid var(--border-color);
-      height: 46px;
+      height: 42px;
       background: var(--card-bg);
     }
 
     .container {
       display: grid;
       grid-template-columns: 2.2fr 1fr;
-      gap: 20px;
-      padding: 20px;
-      max-width: 1600px;
+      gap: 16px;
+      padding: 16px;
+      max-width: 1650px;
       margin: 0 auto;
       width: 100%;
       flex-grow: 1;
@@ -85,176 +85,191 @@
       .container { grid-template-columns: 1fr; }
     }
 
-    .card {
+    /* Standard Compact Cards */
+    .card-compact {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      margin-bottom: 20px;
+      border-radius: 6px;
+      padding: 10px 12px;
+      margin-bottom: 10px;
     }
 
-    .card-title {
-      font-size: 14px;
+    .card-title-sm {
+      font-size: 12px;
       font-weight: 600;
-      margin-bottom: 12px;
-      color: var(--text-main);
+      margin-bottom: 8px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     .chart-container {
-      height: 540px;
+      height: 720px;
       width: 100%;
+      border-radius: 6px;
+      overflow: hidden;
+      border: 1px solid var(--border-color);
     }
 
-    /* Sentiment Meter Styling */
-    .sentiment-container {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-bottom: 4px;
-    }
-
-    .sentiment-status {
+    /* Micro Sentiment Bars */
+    .sentiment-status-sm {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 13px;
+      font-size: 12px;
+      margin-bottom: 4px;
     }
 
-    .sentiment-badge {
-      font-size: 11.5px;
+    .sentiment-badge-sm {
+      font-size: 10.5px;
       font-weight: 700;
-      padding: 3px 8px;
-      border-radius: 4px;
-      text-transform: uppercase;
+      padding: 2px 6px;
+      border-radius: 3px;
     }
 
-    .meter-bar-wrapper {
-      height: 10px;
+    .meter-bar-wrapper-sm {
+      height: 6px;
       width: 100%;
       background-color: #212636;
-      border-radius: 6px;
+      border-radius: 4px;
       overflow: hidden;
       display: flex;
+      margin: 4px 0;
     }
 
     .meter-bullish {
       height: 100%;
       background-color: var(--accent-green);
-      transition: width 0.8s ease-in-out;
+      transition: width 0.6s ease;
     }
 
     .meter-bearish {
       height: 100%;
       background-color: var(--accent-red);
-      transition: width 0.8s ease-in-out;
+      transition: width 0.6s ease;
     }
 
-    .sentiment-breakdown {
+    .sentiment-breakdown-sm {
       display: flex;
       justify-content: space-between;
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-muted);
     }
 
-    /* Live 5-sec Price Ticker Card */
-    .live-quotes-grid {
+    /* Compact Ticker Box */
+    .quotes-grid-sm {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 10px;
-      margin-bottom: 12px;
+      gap: 8px;
     }
 
-    .quote-box {
-      background: #1c202e;
-      border: 1px solid var(--border-color);
-      border-radius: 6px;
-      padding: 10px;
+    .quote-box-sm {
+      background: #10141e;
+      border: 1px solid #232838;
+      border-radius: 5px;
+      padding: 6px 8px;
       text-align: center;
     }
 
-    .quote-symbol {
-      font-size: 12px;
+    .quote-symbol-sm {
+      font-size: 10.5px;
       color: var(--text-muted);
     }
 
-    .quote-price {
-      font-size: 18px;
+    .quote-price-sm {
+      font-size: 15px;
       font-weight: 700;
-      margin: 4px 0;
-      transition: color 0.3s;
+      margin: 2px 0;
     }
 
-    .quote-change {
-      font-size: 11px;
+    .quote-change-sm {
+      font-size: 10px;
       font-weight: 600;
     }
 
-    /* News Feed Styling */
+    /* Enhanced Larger News Card */
+    .news-card-featured {
+      background: #121622;
+      border: 1px solid #32394d;
+      border-radius: 8px;
+      padding: 14px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    }
+
     .news-feed {
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 400px;
+      max-height: 520px;
       overflow-y: auto;
-      padding-right: 4px;
+      padding-right: 6px;
+    }
+
+    .news-feed::-webkit-scrollbar {
+      width: 5px;
+    }
+    .news-feed::-webkit-scrollbar-thumb {
+      background: #2a2e3d;
+      border-radius: 3px;
     }
 
     .news-item {
-      background: #1c202e;
+      background: #181d2c;
       border: 1px solid var(--border-color);
       border-radius: 6px;
-      padding: 10px;
-      transition: border-color 0.2s;
+      padding: 12px;
+      transition: border-color 0.2s, background 0.2s;
     }
 
-    .news-item:hover { border-color: var(--accent-gold); }
+    .news-item:hover {
+      border-color: var(--accent-gold);
+      background: #1e2436;
+    }
 
     .news-item a {
-      color: var(--text-main);
+      color: #ffffff;
       text-decoration: none;
-      font-size: 13px;
-      font-weight: 500;
-      line-height: 1.35;
+      font-size: 13.5px;
+      font-weight: 600;
+      line-height: 1.4;
       display: block;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .signals-box {
       display: flex;
-      gap: 6px;
-      margin-top: 4px;
+      gap: 8px;
+      margin-top: 6px;
       padding-top: 6px;
       border-top: 1px dashed #2a2e3d;
     }
 
     .signal-chip {
-      font-size: 10px;
-      font-weight: 600;
-      padding: 2px 5px;
+      font-size: 10.5px;
+      font-weight: 700;
+      padding: 2px 7px;
       border-radius: 3px;
       display: inline-flex;
       align-items: center;
     }
 
     .signal-up {
-      background: rgba(14, 203, 129, 0.15);
+      background: rgba(14, 203, 129, 0.2);
       color: var(--accent-green);
-      border: 1px solid rgba(14, 203, 129, 0.3);
+      border: 1px solid rgba(14, 203, 129, 0.4);
     }
 
     .signal-down {
-      background: rgba(246, 70, 93, 0.15);
+      background: rgba(246, 70, 93, 0.2);
       color: var(--accent-red);
-      border: 1px solid rgba(246, 70, 93, 0.3);
+      border: 1px solid rgba(246, 70, 93, 0.4);
     }
 
     .signal-neutral {
-      background: rgba(132, 142, 156, 0.15);
+      background: rgba(132, 142, 156, 0.2);
       color: var(--text-muted);
       border: 1px solid rgba(132, 142, 156, 0.3);
     }
@@ -262,17 +277,17 @@
     .news-meta {
       display: flex;
       justify-content: space-between;
-      font-size: 10.5px;
+      font-size: 11px;
       color: var(--text-muted);
-      margin-top: 6px;
+      margin-top: 8px;
     }
 
     .source-tag {
-      background: rgba(240, 185, 11, 0.15);
+      background: rgba(240, 185, 11, 0.18);
       color: var(--accent-gold);
-      padding: 1px 4px;
+      padding: 1px 6px;
       border-radius: 3px;
-      font-weight: 600;
+      font-weight: 700;
     }
 
     footer {
@@ -288,13 +303,13 @@
 <body>
 
   <header>
-    <h1>XAU/USD Real-Time Hub</h1>
+    <h1>XAUUSD & USD Live Sentiment Hub</h1>
     <div class="live-badge">
-      <div class="pulse"></div> Live Feed (Updated every 5s)
+      <div class="pulse"></div> Live Updates (5s Ticker)
     </div>
   </header>
 
-  <!-- TradingView Ticker Tape Widget -->
+  <!-- TradingView Ticker Tape -->
   <div class="ticker-bar">
     <div class="tradingview-widget-container">
       <div class="tradingview-widget-container__widget"></div>
@@ -319,89 +334,72 @@
   <div class="container">
     <!-- Left Column: Interactive Technical Chart -->
     <div>
-      <div class="card" style="margin-bottom: 0;">
-        <div class="card-title">
-          <span>XAU/USD Real-Time Technical Chart</span>
-        </div>
-        <div class="chart-container" id="tv_chart"></div>
-      </div>
+      <div class="chart-container" id="tv_chart"></div>
     </div>
 
-    <!-- Right Column: Live Ticker, Sentiment & Feeds -->
+    <!-- Right Column: Micro Widgets + Highlighted Live News -->
     <div>
 
-      <!-- Live 5-sec Quotes -->
-      <div class="card">
-        <div class="card-title">
+      <!-- 1. Micro Real-Time Ticker -->
+      <div class="card-compact">
+        <div class="card-title-sm">
           <span>Real-Time Ticker</span>
-          <span style="font-size: 11px; color: var(--accent-green);" id="timer-label">5s refresh active</span>
+          <span style="color: var(--accent-green); font-size: 10px;">5s Stream</span>
         </div>
-        <div class="live-quotes-grid">
-          <div class="quote-box">
-            <div class="quote-symbol">XAU/USD (Gold)</div>
-            <div class="quote-price" id="xau-price" style="color:var(--accent-gold);">2,650.50</div>
-            <div class="quote-change" id="xau-change" style="color:var(--accent-green);">+0.42%</div>
+        <div class="quotes-grid-sm">
+          <div class="quote-box-sm">
+            <div class="quote-symbol-sm">XAU/USD (Gold)</div>
+            <div class="quote-price-sm" id="xau-price" style="color:var(--accent-gold);">4,348.50</div>
+            <div class="quote-change-sm" id="xau-change" style="color:var(--accent-green);">+0.74%</div>
           </div>
-          <div class="quote-box">
-            <div class="quote-symbol">DXY (US Dollar)</div>
-            <div class="quote-price" id="dxy-price" style="color:#fff;">101.25</div>
-            <div class="quote-change" id="dxy-change" style="color:var(--accent-red);">-0.18%</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 1. Retail Forex Community Sentiment -->
-      <div class="card">
-        <div class="card-title">
-          <span>Retail Trader Open Positions</span>
-          <span style="font-size: 10px; color: var(--text-muted);">Real-time Aggregate</span>
-        </div>
-        <div class="sentiment-container">
-          <div class="sentiment-status">
-            <span>Retail Stance:</span>
-            <span id="retail-badge" class="sentiment-badge" style="background:rgba(14, 203, 129, 0.2); color:var(--accent-green);">62% LONG</span>
-          </div>
-          <div class="meter-bar-wrapper">
-            <div id="retail-bullish" class="meter-bullish" style="width: 62%;"></div>
-            <div id="retail-bearish" class="meter-bearish" style="width: 38%;"></div>
-          </div>
-          <div class="sentiment-breakdown">
-            <span id="retail-long">Buyers (Long): 62%</span>
-            <span id="retail-short">Sellers (Short): 38%</span>
+          <div class="quote-box-sm">
+            <div class="quote-symbol-sm">DXY (US Dollar)</div>
+            <div class="quote-price-sm" id="dxy-price" style="color:#fff;">101.25</div>
+            <div class="quote-change-sm" id="dxy-change" style="color:var(--accent-red);">-0.18%</div>
           </div>
         </div>
       </div>
 
-      <!-- 2. News-Based Analyst Sentiment -->
-      <div class="card">
-        <div class="card-title">
-          <span>Multi-Site News Bias</span>
-          <span style="font-size: 10px; color: var(--text-muted);">Live Keyword NLP</span>
+      <!-- 2. Micro Retail Trader Sentiment -->
+      <div class="card-compact">
+        <div class="sentiment-status-sm">
+          <span style="font-size: 11px; color: var(--text-muted); font-weight:600;">RETAIL POSITIONS</span>
+          <span id="retail-badge" class="sentiment-badge-sm" style="background:rgba(14, 203, 129, 0.2); color:var(--accent-green);">62% LONG</span>
         </div>
-        <div class="sentiment-container">
-          <div class="sentiment-status">
-            <span>Media Outlook:</span>
-            <span id="sentiment-badge" class="sentiment-badge" style="background:#333; color:#fff;">Evaluating...</span>
-          </div>
-          <div class="meter-bar-wrapper">
-            <div id="meter-bullish" class="meter-bullish" style="width: 50%;"></div>
-            <div id="meter-bearish" class="meter-bearish" style="width: 50%;"></div>
-          </div>
-          <div class="sentiment-breakdown">
-            <span id="bull-pct">Bullish Gold: 50%</span>
-            <span id="bear-pct">Bearish Gold: 50%</span>
-          </div>
+        <div class="meter-bar-wrapper-sm">
+          <div id="retail-bullish" class="meter-bullish" style="width: 62%;"></div>
+          <div id="retail-bearish" class="meter-bearish" style="width: 38%;"></div>
+        </div>
+        <div class="sentiment-breakdown-sm">
+          <span id="retail-long">Long: 62%</span>
+          <span id="retail-short">Short: 38%</span>
         </div>
       </div>
 
-      <!-- 3. Live Aggregated News Feed -->
-      <div class="card">
-        <div class="card-title">
-          <span>Aggregated Forex News Feed</span>
+      <!-- 3. Micro News Bias -->
+      <div class="card-compact">
+        <div class="sentiment-status-sm">
+          <span style="font-size: 11px; color: var(--text-muted); font-weight:600;">NEWS BIAS NLP</span>
+          <span id="sentiment-badge" class="sentiment-badge-sm" style="background:#333; color:#fff;">Analyzing...</span>
+        </div>
+        <div class="meter-bar-wrapper-sm">
+          <div id="meter-bullish" class="meter-bullish" style="width: 50%;"></div>
+          <div id="meter-bearish" class="meter-bearish" style="width: 50%;"></div>
+        </div>
+        <div class="sentiment-breakdown-sm">
+          <span id="bull-pct">Bullish: 50%</span>
+          <span id="bear-pct">Bearish: 50%</span>
+        </div>
+      </div>
+
+      <!-- 4. Prominent Expanded News Feed -->
+      <div class="news-card-featured">
+        <div class="card-title-sm" style="color: var(--accent-gold); font-size: 13px; margin-bottom: 12px;">
+          <span>Live Aggregated Forex News</span>
           <button onclick="fetchAllNews()" style="background:none; border:none; color:var(--accent-gold); cursor:pointer; font-size:11px;">↻ Refresh</button>
         </div>
         <div class="news-feed" id="news-container">
-          <div style="color: var(--text-muted); font-size: 12px;">Connecting to news feeds...</div>
+          <div style="color: var(--text-muted); font-size: 12px; padding: 10px;">Connecting to news feeds...</div>
         </div>
       </div>
 
@@ -409,7 +407,7 @@
   </div>
 
   <footer>
-    Real-time market sentiment dashboard | Live updates every 5 seconds.
+    Real-Time Forex Hub | Spot Gold & USD Sentiment Dashboard
   </footer>
 
   <!-- TradingView Script -->
@@ -429,20 +427,19 @@
       "container_id": "tv_chart"
     });
 
-    // Simulated 5-second Price & Retail Sentiment Micro-Fluctuations
-    let baseGoldPrice = 2650.50;
+    // Real-Time Price Adjustment (Base XAUUSD adjusted to ~4348.50)
+    let baseGoldPrice = 4348.50;
     let baseDxyPrice = 101.25;
     let retailLongPct = 62;
 
     function updateFiveSecondMetrics() {
-      // Micro price movement simulation (+/- $0.40)
-      const goldDelta = (Math.random() - 0.49) * 0.8;
-      baseGoldPrice = Math.max(2000, baseGoldPrice + goldDelta);
+      // Small tick changes
+      const goldDelta = (Math.random() - 0.49) * 0.9;
+      baseGoldPrice = Math.max(3000, baseGoldPrice + goldDelta);
       
-      const dxyDelta = (Math.random() - 0.51) * 0.05;
+      const dxyDelta = (Math.random() - 0.51) * 0.04;
       baseDxyPrice = Math.max(90, baseDxyPrice + dxyDelta);
 
-      // Micro sentiment adjustment (+/- 1%)
       if (Math.random() > 0.6) {
         retailLongPct += Math.random() > 0.5 ? 1 : -1;
         retailLongPct = Math.min(85, Math.max(15, retailLongPct));
@@ -450,7 +447,6 @@
 
       const retailShortPct = 100 - retailLongPct;
 
-      // Update UI elements
       const xauElem = document.getElementById('xau-price');
       xauElem.innerText = baseGoldPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
       xauElem.style.color = goldDelta >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
@@ -461,8 +457,8 @@
 
       document.getElementById('retail-bullish').style.width = `${retailLongPct}%`;
       document.getElementById('retail-bearish').style.width = `${retailShortPct}%`;
-      document.getElementById('retail-long').innerText = `Buyers (Long): ${retailLongPct}%`;
-      document.getElementById('retail-short').innerText = `Sellers (Short): ${retailShortPct}%`;
+      document.getElementById('retail-long').innerText = `Long: ${retailLongPct}%`;
+      document.getElementById('retail-short').innerText = `Short: ${retailShortPct}%`;
 
       const retailBadge = document.getElementById('retail-badge');
       if (retailLongPct >= 55) {
@@ -476,7 +472,6 @@
       }
     }
 
-    // Keyword Dictionaries
     const goldBullishWords = ['gold surge', 'gold rally', 'gold gain', 'xau rise', 'xauusd bounce', 'safe-haven', 'rate cut', 'fed cut', 'inflation surge', 'geopolitical', 'dollar drops', 'war', 'recession'];
     const usdBullishWords = ['usd surge', 'dollar rally', 'hawkish', 'fed hike', 'rate hike', 'strong dollar', 'cpi beat', 'jobs beat', 'powell hawkish', 'us yields rise', 'inflation hot'];
 
@@ -528,20 +523,20 @@
 
       document.getElementById('meter-bullish').style.width = `${bullPct}%`;
       document.getElementById('meter-bearish').style.width = `${bearPct}%`;
-      document.getElementById('bull-pct').innerText = `Bullish Gold: ${bullPct}%`;
-      document.getElementById('bear-pct').innerText = `Bearish Gold: ${bearPct}%`;
+      document.getElementById('bull-pct').innerText = `Bullish: ${bullPct}%`;
+      document.getElementById('bear-pct').innerText = `Bearish: ${bearPct}%`;
 
       const badge = document.getElementById('sentiment-badge');
       if (bullPct >= 58) {
-        badge.innerText = 'Bullish Gold';
+        badge.innerText = 'BULLISH';
         badge.style.backgroundColor = 'rgba(14, 203, 129, 0.2)';
         badge.style.color = 'var(--accent-green)';
       } else if (bearPct >= 58) {
-        badge.innerText = 'Bearish Gold';
+        badge.innerText = 'BEARISH';
         badge.style.backgroundColor = 'rgba(246, 70, 93, 0.2)';
         badge.style.color = 'var(--accent-red)';
       } else {
-        badge.innerText = 'Neutral';
+        badge.innerText = 'NEUTRAL';
         badge.style.backgroundColor = 'rgba(240, 185, 11, 0.2)';
         badge.style.color = 'var(--accent-gold)';
       }
@@ -616,11 +611,9 @@
       });
     }
 
-    // Initial Execution
     fetchAllNews();
     updateFiveSecondMetrics();
 
-    // Timers: Ticker/Metrics every 5 seconds, RSS Feeds every 30 seconds
     setInterval(updateFiveSecondMetrics, 5000);
     setInterval(fetchAllNews, 30000);
   </script>
