@@ -69,7 +69,7 @@
     .marquee-content {
       display: flex;
       white-space: nowrap;
-      animation: marquee 120s linear infinite; /* SLOWED DOWN TO 120 seconds */
+      animation: marquee 120s linear infinite; /* Slowed down to 120 seconds */
       font-size: 12px;
       color: var(--text-main);
     }
@@ -190,28 +190,17 @@
     }
 
     .quotes-grid-micro {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
+      display: flex;
       gap: 6px;
     }
 
-    .quote-box-micro {
+    .tv-single-quote-box {
+      width: 50%;
       background: #10141e;
       border: 1px solid #232838;
       border-radius: 4px;
-      padding: 4px 6px;
-      text-align: center;
-    }
-
-    .quote-symbol-micro {
-      font-size: 10px;
-      color: var(--text-muted);
-    }
-
-    .quote-price-micro {
-      font-size: 14px;
-      font-weight: 700;
-      margin: 1px 0;
+      overflow: hidden;
+      height: 52px;
     }
 
     /* News Panel */
@@ -227,7 +216,7 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 560px;
+      max-height: 540px;
       overflow-y: auto;
       padding-right: 4px;
     }
@@ -339,13 +328,13 @@
 <body>
 
   <header>
-    <h1>XAUUSD Live Market Hub</h1>
-    <div style="font-size: 11px; color: var(--accent-green);">● Live </div>
+    <h1>XAU/USD Live Market Hub</h1>
+    <div style="font-size: 11px; color: var(--accent-green);">● Live</div>
   </header>
 
   <!-- Top Moving News Ticker -->
   <div class="top-news-marquee">
-    <div class="marquee-label">FLASH NEWS</div>
+    <div class="marquee-label">2H FLASH NEWS</div>
     <div class="marquee-content" id="marquee-stream">
       <div class="marquee-item"><span>Loading latest news...</span></div>
     </div>
@@ -379,23 +368,45 @@
       <div class="chart-container" id="tv_chart"></div>
     </div>
 
-    <!-- Right Column: Micro Cards + Expanded News Feed -->
+    <!-- Right Column: Micro Live Widgets + News Feed -->
     <div>
 
-      <!-- 1. Micro Real-Time Ticker -->
+      <!-- 1. Real Live TradingView Single-Quote Tickers -->
       <div class="card-micro">
         <div class="card-title-micro">
-          <span>Real-Time Ticker</span>
-          <span style="color: var(--accent-green);"> </span>
+          <span>Real-Time Quotes</span>
+          <span style="color: var(--accent-green);">TradingView Live</span>
         </div>
         <div class="quotes-grid-micro">
-          <div class="quote-box-micro">
-            <div class="quote-symbol-micro">XAU/USD (Gold)</div>
-            <div class="quote-price-micro" id="xau-price" style="color:var(--accent-gold);">4,348.50</div>
+          <!-- Real-Time Gold Quote -->
+          <div class="tv-single-quote-box">
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "OANDA:XAUUSD",
+                "width": "100%",
+                "colorTheme": "dark",
+                "isTransparent": true,
+                "locale": "en"
+              }
+              </script>
+            </div>
           </div>
-          <div class="quote-box-micro">
-            <div class="quote-symbol-micro">DXY (US Dollar)</div>
-            <div class="quote-price-micro" id="dxy-price" style="color:#fff;">101.25</div>
+          <!-- Real-Time DXY Quote -->
+          <div class="tv-single-quote-box">
+            <div class="tradingview-widget-container">
+              <div class="tradingview-widget-container__widget"></div>
+              <script type="text/javascript" src="https://s3.tradingview.com/external-embedding/embed-widget-single-quote.js" async>
+              {
+                "symbol": "CAPITALCOM:DXY",
+                "width": "100%",
+                "colorTheme": "dark",
+                "isTransparent": true,
+                "locale": "en"
+              }
+              </script>
+            </div>
           </div>
         </div>
       </div>
@@ -467,32 +478,15 @@
       "container_id": "tv_chart"
     });
 
-    // Real Spot Gold base price (~$4,348.50)
-    let baseGoldPrice = 4348.50;
-    let baseDxyPrice = 101.25;
     let retailLongPct = 62;
 
-    function updateFiveSecondMetrics() {
-      const goldDelta = (Math.random() - 0.49) * 0.9;
-      baseGoldPrice = Math.max(3000, baseGoldPrice + goldDelta);
-      
-      const dxyDelta = (Math.random() - 0.51) * 0.04;
-      baseDxyPrice = Math.max(90, baseDxyPrice + dxyDelta);
-
+    function updateRetailSentiment() {
       if (Math.random() > 0.6) {
         retailLongPct += Math.random() > 0.5 ? 1 : -1;
         retailLongPct = Math.min(85, Math.max(15, retailLongPct));
       }
 
       const retailShortPct = 100 - retailLongPct;
-
-      const xauElem = document.getElementById('xau-price');
-      xauElem.innerText = baseGoldPrice.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-      xauElem.style.color = goldDelta >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
-
-      const dxyElem = document.getElementById('dxy-price');
-      dxyElem.innerText = baseDxyPrice.toFixed(2);
-      dxyElem.style.color = dxyDelta >= 0 ? 'var(--accent-green)' : 'var(--accent-red)';
 
       document.getElementById('retail-bullish').style.width = `${retailLongPct}%`;
       document.getElementById('retail-bearish').style.width = `${retailShortPct}%`;
@@ -705,9 +699,9 @@
     }
 
     fetchAllNews();
-    updateFiveSecondMetrics();
+    updateRetailSentiment();
 
-    setInterval(updateFiveSecondMetrics, 5000);
+    setInterval(updateRetailSentiment, 5000);
     setInterval(fetchAllNews, 30000);
   </script>
 </body>
