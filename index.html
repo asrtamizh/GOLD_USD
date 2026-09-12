@@ -69,7 +69,7 @@
     .marquee-content {
       display: flex;
       white-space: nowrap;
-      animation: marquee 35s linear infinite;
+      animation: marquee 120s linear infinite; /* SLOWED DOWN TO 120 seconds */
       font-size: 12px;
       color: var(--text-main);
     }
@@ -82,7 +82,7 @@
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      margin-right: 30px;
+      margin-right: 35px;
     }
 
     .marquee-item a {
@@ -214,7 +214,7 @@
       margin: 1px 0;
     }
 
-    /* Enhanced Large News Panel */
+    /* News Panel */
     .news-panel {
       background: #121622;
       border: 1px solid #32394d;
@@ -263,7 +263,6 @@
       margin-bottom: 6px;
     }
 
-    /* Bullet Key Points */
     .key-points-list {
       margin: 6px 0 8px 14px;
       padding: 0;
@@ -341,14 +340,14 @@
 
   <header>
     <h1>XAUUSD Live Market Hub</h1>
-    <div style="font-size: 11px; color: var(--accent-green);">● Live</div>
+    <div style="font-size: 11px; color: var(--accent-green);">● Live </div>
   </header>
 
   <!-- Top Moving News Ticker -->
   <div class="top-news-marquee">
-    <div class="marquee-label">FLASH NEWS</div>
+    <div class="marquee-label">2H FLASH NEWS</div>
     <div class="marquee-content" id="marquee-stream">
-      <div class="marquee-item"><span>Loading news stream...</span></div>
+      <div class="marquee-item"><span>Loading latest news...</span></div>
     </div>
   </div>
 
@@ -637,14 +636,23 @@
 
       if (aggregatedArticles.length === 0) return;
 
-      aggregatedArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
-      const items = aggregatedArticles.slice(0, 15);
+      // Filter news to ONLY recent within 2 hours
+      const twoHoursAgo = new Date(Date.now() - 2 * 60 * 60 * 1000);
+      let items = aggregatedArticles.filter(item => new Date(item.pubDate) >= twoHoursAgo);
+
+      // Fallback: If no news within 2 hours, pick the 10 most recent articles
+      if (items.length === 0) {
+        aggregatedArticles.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+        items = aggregatedArticles.slice(0, 10);
+      } else {
+        items.sort((a, b) => new Date(b.pubDate) - new Date(a.pubDate));
+      }
 
       analyzeNewsSentiment(items);
 
       // Populate Top Moving Marquee
       marquee.innerHTML = '';
-      const marqueeItems = items.concat(items); // Double up for seamless marquee loop
+      const marqueeItems = items.concat(items); // Double for continuous loop
       marqueeItems.forEach(item => {
         marquee.innerHTML += `
           <div class="marquee-item">
@@ -655,7 +663,7 @@
         `;
       });
 
-      // Populate Main News Panel with Bullet Points
+      // Populate Main News Panel with Bullet Key Points
       container.innerHTML = '';
       items.forEach(item => {
         const date = new Date(item.pubDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
