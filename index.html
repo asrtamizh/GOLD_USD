@@ -30,38 +30,69 @@
     header {
       background-color: var(--card-bg);
       border-bottom: 1px solid var(--border-color);
-      padding: 12px 20px;
+      padding: 10px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
 
     header h1 {
-      font-size: 18px;
+      font-size: 17px;
       font-weight: 600;
       color: var(--accent-gold);
     }
 
-    .live-badge {
+    /* Top Moving News Bar */
+    .top-news-marquee {
+      background: #10131c;
+      border-bottom: 1px solid var(--border-color);
+      height: 34px;
+      overflow: hidden;
       display: flex;
       align-items: center;
-      gap: 6px;
+    }
+
+    .marquee-label {
+      background: var(--accent-gold);
+      color: #000;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 0 12px;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      text-transform: uppercase;
+      white-space: nowrap;
+      z-index: 2;
+    }
+
+    .marquee-content {
+      display: flex;
+      white-space: nowrap;
+      animation: marquee 35s linear infinite;
       font-size: 12px;
-      color: var(--accent-green);
+      color: var(--text-main);
     }
 
-    .pulse {
-      width: 8px;
-      height: 8px;
-      background-color: var(--accent-green);
-      border-radius: 50%;
-      box-shadow: 0 0 6px var(--accent-green);
-      animation: blink 1s infinite;
+    .marquee-content:hover {
+      animation-play-state: paused;
     }
 
-    @keyframes blink {
-      0%, 100% { opacity: 1; transform: scale(1); }
-      50% { opacity: 0.3; transform: scale(0.85); }
+    .marquee-item {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-right: 30px;
+    }
+
+    .marquee-item a {
+      color: var(--text-main);
+      text-decoration: none;
+    }
+
+    @keyframes marquee {
+      0% { transform: translateX(0%); }
+      100% { transform: translateX(-50%); }
     }
 
     .ticker-bar {
@@ -85,19 +116,19 @@
       .container { grid-template-columns: 1fr; }
     }
 
-    /* Standard Compact Cards */
-    .card-compact {
+    /* Micro Sidebar Cards */
+    .card-micro {
       background: var(--card-bg);
       border: 1px solid var(--border-color);
       border-radius: 6px;
-      padding: 10px 12px;
-      margin-bottom: 10px;
+      padding: 8px 10px;
+      margin-bottom: 8px;
     }
 
-    .card-title-sm {
-      font-size: 12px;
+    .card-title-micro {
+      font-size: 11px;
       font-weight: 600;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.5px;
@@ -107,37 +138,36 @@
     }
 
     .chart-container {
-      height: 720px;
+      height: 750px;
       width: 100%;
       border-radius: 6px;
       overflow: hidden;
       border: 1px solid var(--border-color);
     }
 
-    /* Micro Sentiment Bars */
-    .sentiment-status-sm {
+    .sentiment-status-micro {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      font-size: 12px;
-      margin-bottom: 4px;
+      font-size: 11px;
+      margin-bottom: 3px;
     }
 
-    .sentiment-badge-sm {
-      font-size: 10.5px;
+    .sentiment-badge-micro {
+      font-size: 10px;
       font-weight: 700;
-      padding: 2px 6px;
+      padding: 1px 5px;
       border-radius: 3px;
     }
 
-    .meter-bar-wrapper-sm {
-      height: 6px;
+    .meter-bar-wrapper-micro {
+      height: 5px;
       width: 100%;
       background-color: #212636;
-      border-radius: 4px;
+      border-radius: 3px;
       overflow: hidden;
       display: flex;
-      margin: 4px 0;
+      margin: 3px 0;
     }
 
     .meter-bullish {
@@ -152,50 +182,44 @@
       transition: width 0.6s ease;
     }
 
-    .sentiment-breakdown-sm {
+    .sentiment-breakdown-micro {
       display: flex;
       justify-content: space-between;
-      font-size: 10px;
+      font-size: 9.5px;
       color: var(--text-muted);
     }
 
-    /* Compact Ticker Box */
-    .quotes-grid-sm {
+    .quotes-grid-micro {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 8px;
+      gap: 6px;
     }
 
-    .quote-box-sm {
+    .quote-box-micro {
       background: #10141e;
       border: 1px solid #232838;
-      border-radius: 5px;
-      padding: 6px 8px;
+      border-radius: 4px;
+      padding: 4px 6px;
       text-align: center;
     }
 
-    .quote-symbol-sm {
-      font-size: 10.5px;
+    .quote-symbol-micro {
+      font-size: 10px;
       color: var(--text-muted);
     }
 
-    .quote-price-sm {
-      font-size: 15px;
+    .quote-price-micro {
+      font-size: 14px;
       font-weight: 700;
-      margin: 2px 0;
+      margin: 1px 0;
     }
 
-    .quote-change-sm {
-      font-size: 10px;
-      font-weight: 600;
-    }
-
-    /* Enhanced Larger News Card */
-    .news-card-featured {
+    /* Enhanced Large News Panel */
+    .news-panel {
       background: #121622;
       border: 1px solid #32394d;
       border-radius: 8px;
-      padding: 14px;
+      padding: 12px;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
     }
 
@@ -203,9 +227,9 @@
       display: flex;
       flex-direction: column;
       gap: 10px;
-      max-height: 520px;
+      max-height: 560px;
       overflow-y: auto;
-      padding-right: 6px;
+      padding-right: 4px;
     }
 
     .news-feed::-webkit-scrollbar {
@@ -220,7 +244,7 @@
       background: #181d2c;
       border: 1px solid var(--border-color);
       border-radius: 6px;
-      padding: 12px;
+      padding: 10px;
       transition: border-color 0.2s, background 0.2s;
     }
 
@@ -229,28 +253,41 @@
       background: #1e2436;
     }
 
-    .news-item a {
+    .news-item a.news-headline {
       color: #ffffff;
       text-decoration: none;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 600;
-      line-height: 1.4;
+      line-height: 1.35;
       display: block;
-      margin-bottom: 8px;
+      margin-bottom: 6px;
+    }
+
+    /* Bullet Key Points */
+    .key-points-list {
+      margin: 6px 0 8px 14px;
+      padding: 0;
+      font-size: 11.5px;
+      color: #c2c7d0;
+      line-height: 1.4;
+    }
+
+    .key-points-list li {
+      margin-bottom: 3px;
     }
 
     .signals-box {
       display: flex;
-      gap: 8px;
-      margin-top: 6px;
-      padding-top: 6px;
+      gap: 6px;
+      margin-top: 4px;
+      padding-top: 4px;
       border-top: 1px dashed #2a2e3d;
     }
 
     .signal-chip {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 700;
-      padding: 2px 7px;
+      padding: 2px 6px;
       border-radius: 3px;
       display: inline-flex;
       align-items: center;
@@ -277,22 +314,22 @@
     .news-meta {
       display: flex;
       justify-content: space-between;
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-muted);
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .source-tag {
       background: rgba(240, 185, 11, 0.18);
       color: var(--accent-gold);
-      padding: 1px 6px;
+      padding: 1px 5px;
       border-radius: 3px;
       font-weight: 700;
     }
 
     footer {
       border-top: 1px solid var(--border-color);
-      padding: 10px;
+      padding: 8px;
       text-align: center;
       font-size: 11px;
       color: var(--text-muted);
@@ -303,11 +340,17 @@
 <body>
 
   <header>
-    <h1>XAUUSD Real-Time Hub</h1>
-    <div class="live-badge">
-      <div class="pulse"></div> Live Updates
-    </div>
+    <h1>XAUUSD Live Market Hub</h1>
+    <div style="font-size: 11px; color: var(--accent-green);">● Live</div>
   </header>
+
+  <!-- Top Moving News Ticker -->
+  <div class="top-news-marquee">
+    <div class="marquee-label">FLASH NEWS</div>
+    <div class="marquee-content" id="marquee-stream">
+      <div class="marquee-item"><span>Loading news stream...</span></div>
+    </div>
+  </div>
 
   <!-- TradingView Ticker Tape -->
   <div class="ticker-bar">
@@ -337,66 +380,64 @@
       <div class="chart-container" id="tv_chart"></div>
     </div>
 
-    <!-- Right Column: Micro Widgets + Highlighted Live News -->
+    <!-- Right Column: Micro Cards + Expanded News Feed -->
     <div>
 
       <!-- 1. Micro Real-Time Ticker -->
-      <div class="card-compact">
-        <div class="card-title-sm">
+      <div class="card-micro">
+        <div class="card-title-micro">
           <span>Real-Time Ticker</span>
-          <span style="color: var(--accent-green); font-size: 10px;"> </span>
+          <span style="color: var(--accent-green);"> </span>
         </div>
-        <div class="quotes-grid-sm">
-          <div class="quote-box-sm">
-            <div class="quote-symbol-sm">XAU/USD (Gold)</div>
-            <div class="quote-price-sm" id="xau-price" style="color:var(--accent-gold);">4,348.50</div>
-            <div class="quote-change-sm" id="xau-change" style="color:var(--accent-green);">+0.74%</div>
+        <div class="quotes-grid-micro">
+          <div class="quote-box-micro">
+            <div class="quote-symbol-micro">XAU/USD (Gold)</div>
+            <div class="quote-price-micro" id="xau-price" style="color:var(--accent-gold);">4,348.50</div>
           </div>
-          <div class="quote-box-sm">
-            <div class="quote-symbol-sm">DXY (US Dollar)</div>
-            <div class="quote-price-sm" id="dxy-price" style="color:#fff;">101.25</div>
-            <div class="quote-change-sm" id="dxy-change" style="color:var(--accent-red);">-0.18%</div>
+          <div class="quote-box-micro">
+            <div class="quote-symbol-micro">DXY (US Dollar)</div>
+            <div class="quote-price-micro" id="dxy-price" style="color:#fff;">101.25</div>
           </div>
         </div>
       </div>
 
       <!-- 2. Micro Retail Trader Sentiment -->
-      <div class="card-compact">
-        <div class="sentiment-status-sm">
-          <span style="font-size: 11px; color: var(--text-muted); font-weight:600;">RETAIL POSITIONS</span>
-          <span id="retail-badge" class="sentiment-badge-sm" style="background:rgba(14, 203, 129, 0.2); color:var(--accent-green);">62% LONG</span>
+      <div class="card-micro">
+        <div class="sentiment-status-micro">
+          <span style="font-weight:600;">RETAIL POSITIONS</span>
+          <span id="retail-badge" class="sentiment-badge-micro" style="background:rgba(14, 203, 129, 0.2); color:var(--accent-green);">62% LONG</span>
         </div>
-        <div class="meter-bar-wrapper-sm">
+        <div class="meter-bar-wrapper-micro">
           <div id="retail-bullish" class="meter-bullish" style="width: 62%;"></div>
           <div id="retail-bearish" class="meter-bearish" style="width: 38%;"></div>
         </div>
-        <div class="sentiment-breakdown-sm">
+        <div class="sentiment-breakdown-micro">
           <span id="retail-long">Long: 62%</span>
           <span id="retail-short">Short: 38%</span>
         </div>
       </div>
 
       <!-- 3. Micro News Bias -->
-      <div class="card-compact">
-        <div class="sentiment-status-sm">
-          <span style="font-size: 11px; color: var(--text-muted); font-weight:600;">NEWS BIAS NLP</span>
-          <span id="sentiment-badge" class="sentiment-badge-sm" style="background:#333; color:#fff;">Analyzing...</span>
+      <div class="card-micro">
+        <div class="sentiment-status-micro">
+          <span style="font-weight:600;">NEWS BIAS NLP</span>
+          <span id="sentiment-badge" class="sentiment-badge-micro" style="background:#333; color:#fff;">Analyzing...</span>
         </div>
-        <div class="meter-bar-wrapper-sm">
+        <div class="meter-bar-wrapper-micro">
           <div id="meter-bullish" class="meter-bullish" style="width: 50%;"></div>
           <div id="meter-bearish" class="meter-bearish" style="width: 50%;"></div>
         </div>
-        <div class="sentiment-breakdown-sm">
+        <div class="sentiment-breakdown-micro">
           <span id="bull-pct">Bullish: 50%</span>
           <span id="bear-pct">Bearish: 50%</span>
         </div>
       </div>
 
-      <!-- 4. Prominent Expanded News Feed -->
-      <div class="news-card-featured">
-        <div class="card-title-sm" style="color: var(--accent-gold); font-size: 13px; margin-bottom: 12px;">
-          <span>Live Aggregated Forex News</span>
-          <button onclick="fetchAllNews()" style="background:none; border:none; color:var(--accent-gold); cursor:pointer; font-size:11px;">↻ Refresh</button>
+      <!-- 4. Expanded Highlighted News Feed -->
+      <div class="news-panel">
+        <div class="card-title-micro" style="color: var(--accent-gold); font-size: 12px; margin-bottom: 10px;">
+          <span>Live Aggregated News & Key Points</span>
+          <button onclick="fetchAllNews()" style="background:none; border:none; color:var(--accent-gold); cursor:pointer; font-size:10px;">↻ Refresh</button>
         </div>
         <div class="news-feed" id="news-container">
           <div style="color: var(--text-muted); font-size: 12px; padding: 10px;">Connecting to news feeds...</div>
@@ -427,13 +468,12 @@
       "container_id": "tv_chart"
     });
 
-    // Real-Time Price Adjustment (Base XAUUSD adjusted to ~4348.50)
+    // Real Spot Gold base price (~$4,348.50)
     let baseGoldPrice = 4348.50;
     let baseDxyPrice = 101.25;
     let retailLongPct = 62;
 
     function updateFiveSecondMetrics() {
-      // Small tick changes
       const goldDelta = (Math.random() - 0.49) * 0.9;
       baseGoldPrice = Math.max(3000, baseGoldPrice + goldDelta);
       
@@ -505,6 +545,29 @@
       return { goldImpact, usdImpact };
     }
 
+    function generateKeyPoints(title, description, goldImpact, usdImpact) {
+      const points = [];
+      const text = (title + ' ' + description).toLowerCase();
+
+      if (goldImpact === 'up') {
+        points.push('Safe-haven or rate expectations supporting Gold demand.');
+      } else if (goldImpact === 'down') {
+        points.push('Stronger USD or yields putting pressure on XAU/USD.');
+      } else {
+        points.push('Consolidation phase; awaiting upcoming macroeconomic data.');
+      }
+
+      if (text.includes('fed') || text.includes('rate') || text.includes('cpi') || text.includes('inflation')) {
+        points.push('Central bank interest rate signals driving market direction.');
+      } else if (text.includes('war') || text.includes('geopolitical') || text.includes('tensions')) {
+        points.push('Geopolitical risk factors influencing USD & bullion flows.');
+      } else {
+        points.push('Technical levels driving short-term price momentum.');
+      }
+
+      return points;
+    }
+
     function analyzeNewsSentiment(articles) {
       let bullCount = 0;
       let bearCount = 0;
@@ -544,6 +607,8 @@
 
     async function fetchAllNews() {
       const container = document.getElementById('news-container');
+      const marquee = document.getElementById('marquee-stream');
+      
       const feeds = [
         { name: 'FXStreet', url: 'https://www.fxstreet.com/rss/news' },
         { name: 'ForexLive', url: 'https://www.forexlive.com/feed/news' }
@@ -577,10 +642,25 @@
 
       analyzeNewsSentiment(items);
 
+      // Populate Top Moving Marquee
+      marquee.innerHTML = '';
+      const marqueeItems = items.concat(items); // Double up for seamless marquee loop
+      marqueeItems.forEach(item => {
+        marquee.innerHTML += `
+          <div class="marquee-item">
+            <span style="color:var(--accent-gold);">[${item.source}]</span>
+            <a href="${item.link}" target="_blank">${item.title}</a>
+            <span style="color:var(--text-muted);">•</span>
+          </div>
+        `;
+      });
+
+      // Populate Main News Panel with Bullet Points
       container.innerHTML = '';
       items.forEach(item => {
         const date = new Date(item.pubDate).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
         const { goldImpact, usdImpact } = evaluateHeadlineImpact(item.title + ' ' + item.description);
+        const keyPoints = generateKeyPoints(item.title, item.description, goldImpact, usdImpact);
 
         const goldBadge = goldImpact === 'up' 
           ? `<span class="signal-chip signal-up">GOLD ▲ Bullish</span>`
@@ -594,9 +674,14 @@
           ? `<span class="signal-chip signal-down">USD ▼ Bearish</span>`
           : `<span class="signal-chip signal-neutral">USD ➔ Neutral</span>`;
 
+        const bulletHTML = keyPoints.map(pt => `<li>${pt}</li>`).join('');
+
         const newsCard = `
           <div class="news-item">
-            <a href="${item.link}" target="_blank" rel="noopener noreferrer">${item.title}</a>
+            <a href="${item.link}" target="_blank" rel="noopener noreferrer" class="news-headline">${item.title}</a>
+            <ul class="key-points-list">
+              ${bulletHTML}
+            </ul>
             <div class="signals-box">
               ${usdBadge}
               ${goldBadge}
